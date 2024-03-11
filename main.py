@@ -70,6 +70,22 @@ def new_tarot_deck(major=True, minor=True):
     return deck
 
 
+def new_deck_of_many_things(extended=False):
+    """
+    Creates a list of cards from Dungeons & Dragons Deck of Many Things
+    :param extended: If 'True', use the extended set of twenty-two cards; 'False' uses the thirteen card set (in D&D
+    lore, 75% of the time the Deck is found with thirteen cards)
+    :return: A list containing the required Deck of Many Things cards
+    """
+    deck = ["Throne", "Key", "Knight", "Fool", "The Void", "Flames", "Skull", "Ruin", "Euryale",
+            "Rogue", "Jester", "Sun", "Moon", "Star"]
+    extended_deck = ["Vizier", "Comet", "The Fates", "Talons", "Gem", "Idiot", "Donjon", "Balance"]
+    if extended:
+        deck.extend(extended_deck)
+    random.shuffle(deck)
+    return deck
+
+
 def new_gun(bullets=1, chambers=6):
     """
     Loads a (virtual) revolver with an arbitrary number of bullets in an equally arbitrary number of chambers (Note:
@@ -81,9 +97,9 @@ def new_gun(bullets=1, chambers=6):
     chamber
     """
     cylinder = []
-    if bullets > chambers:
-        bullets = 1
-        chambers = 6
+    if bullets > chambers:  #
+        bullets = 1         # Prevents more bullets being loaded than there are chambers
+        chambers = 6        #
     for _loop in range(bullets):
         cylinder.append(True)
     for _loop in range(chambers-bullets):
@@ -130,12 +146,12 @@ def pull_trigger(cylinder, n=1):
     """
     result = []
     for _loop in range(n):
-        if len(cylinder) <= 0:
+        if len(cylinder) <= 0:  # Checks if the list is empty (all bullets have been fired, cylinder just rotates
             result.append("* click * ")
-        elif not cylinder[0]:
+        elif not cylinder[0]:   # Checks if the first chamber is empty
             result.append("* click *")
             cylinder.remove(cylinder[0])
-        else:
+        elif cylinder[0]:       # Checks if first chamber has a loaded round
             result.append("* BANG! *")
             cylinder.remove(cylinder[0])
     return result
@@ -229,8 +245,13 @@ def convert_denominations(cp):
     return pp, gp, ep, sp, cp
 
 
+def random_npc():
+    # TODO: Create function to generate random NPC names
+    return
+
+
 if __name__ == '__main__':
     card_deck = new_card_deck()
     tarot_deck = new_tarot_deck()
+    deck_of_many_things = new_deck_of_many_things()
     gun = new_gun()
-
