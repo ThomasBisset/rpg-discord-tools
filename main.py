@@ -9,8 +9,7 @@ def new_card_deck(joker=False):
     """
     deck = []
     if joker:
-        deck.append("Joker")
-        deck.append("Joker")
+        deck.extend(["Joker", "Joker"])
     for value in range(1, 14):
         if value == 1:
             for suit in ["Hearts", "Diamonds", "Clubs", "Spades"]:
@@ -234,4 +233,4 @@ if __name__ == '__main__':
     card_deck = new_card_deck()
     tarot_deck = new_tarot_deck()
     gun = new_gun()
-    print(pull_trigger(gun, 10))
+
