@@ -136,24 +136,24 @@ def draw(deck, n=1):
     return cards_drawn
 
 
-def pull_trigger(cylinder, n=1):
+def pull_trigger(loaded_gun, n=1):
     """
     Simulates the game Russian Roulette
-    :param cylinder: A list of Boolean values - 'True' represents the presence of a bullet in a chamber, while 'False'
+    :param loaded_gun: A list of Boolean values - 'True' represents the presence of a bullet in a chamber, while 'False'
     is an empty chamber
     :param n: The number of trigger pulls
     :return: A list containing the results of the trigger pulls
     """
     result = []
     for _loop in range(n):
-        if len(cylinder) <= 0:  # Checks if the list is empty (all bullets have been fired, cylinder just rotates
-            result.append("* click * ")
-        elif not cylinder[0]:  # Checks if the first chamber is empty
+        if len(loaded_gun) <= 0:              # Checks if the list is empty
+            result.append("* click * ")     # (all bullets have been fired, cylinder just rotates)
+        elif not loaded_gun[0]:               # Checks if the first chamber is empty
             result.append("* click *")
-            cylinder.remove(cylinder[0])
-        elif cylinder[0]:  # Checks if first chamber has a loaded round
+            loaded_gun.remove(loaded_gun[0])
+        elif loaded_gun[0]:                   # Checks if first chamber has a loaded round
             result.append("* BANG! *")
-            cylinder.remove(cylinder[0])
+            loaded_gun.remove(loaded_gun[0])
     return result
 
 
@@ -180,7 +180,14 @@ def character_ability_roll():
         ability = roll(6, 4)[0]
         ability.remove(min(ability))
         result.append(sum(ability))
-    return sorted(result, reverse=True)
+    result = sorted(result, reverse=True)
+    output = (f"Highest: {str(result[0]).rjust(2, ' ')}, {convert_ability_to_modifier(result[0])[1]} \n"
+              f"         {str(result[1]).rjust(2, ' ')}, {convert_ability_to_modifier(result[1])[1]} \n"
+              f"         {str(result[2]).rjust(2, ' ')}, {convert_ability_to_modifier(result[2])[1]} \n"
+              f"         {str(result[3]).rjust(2, ' ')}, {convert_ability_to_modifier(result[3])[1]} \n"
+              f"         {str(result[4]).rjust(2, ' ')}, {convert_ability_to_modifier(result[4])[1]} \n"
+              f"Lowest:  {str(result[5]).rjust(2, ' ')}, {convert_ability_to_modifier(result[5])[1]}")
+    return output
 
 
 def convert_ability_to_modifier(ability_score):
@@ -201,7 +208,7 @@ def convert_ability_to_modifier(ability_score):
 def convert_all_to_cp(pp, gp, ep, sp, cp, split=1):
     """
     Converts all currency used in typical Dungeons & Dragons games into copper pieces, which is the lowest
-    denomination - this allows for easier conversion back into larger denominations
+    denomination - this allows for easier conversion back into larger denominations to redistribute among the party
     :param pp: Number of platinum pieces
     :param gp: Number of gold pieces
     :param ep: Number of electrum pieces
@@ -218,7 +225,7 @@ def convert_all_to_cp(pp, gp, ep, sp, cp, split=1):
 
 def convert_denominations(cp):
     """
-    Converts the number of copper pieces back to larger denominations
+    Converts the number of copper pieces back to larger denominations for redistribution among the party
     :param cp: Number of copper pieces
     :return: A list with the number of platinum, gold, electrum, silver and copper pieces respectively
     """
@@ -275,3 +282,4 @@ if __name__ == '__main__':
     tarot_deck = new_tarot_deck()
     deck_of_many_things = new_deck_of_many_things()
     gun = new_gun()
+    print(character_ability_roll())
