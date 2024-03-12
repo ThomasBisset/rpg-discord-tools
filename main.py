@@ -74,7 +74,7 @@ def new_deck_of_many_things(extended=False):
     """
     Creates a list of cards from Dungeons & Dragons Deck of Many Things
     :param extended: If 'True', use the extended set of twenty-two cards; 'False' uses the thirteen card set (in D&D
-    lore, 75% of the time the Deck is found with thirteen cards)
+    lore, the Deck is found with thirteen cards 75% of the time)
     :return: A list containing the required Deck of Many Things cards
     """
     deck = ["Throne", "Key", "Knight", "Fool", "The Void", "Flames", "Skull", "Ruin", "Euryale",
@@ -91,28 +91,28 @@ def new_gun(bullets=1, chambers=6):
     Loads a (virtual) revolver with an arbitrary number of bullets in an equally arbitrary number of chambers (Note:
     If there is an attempt to load more bullets than there are chambers, the script will use the default values of one
     'bullet' loaded into one of six 'chambers')
-    :param bullets: Number of 'bullets' to load into the 'gun'
-    :param chambers: Number of 'chambers' in the 'gun'
+    :param bullets: Number of 'bullets' to load into the gun
+    :param chambers: Number of 'chambers' in the gun
     :return: A list of Boolean values, where 'True' represents a bullet in the chamber and 'False' represents an empty
     chamber
     """
     cylinder = []
     if bullets > chambers:  #
-        bullets = 1         # Prevents more bullets being loaded than there are chambers
-        chambers = 6        #
+        bullets = 1  # Prevents more bullets being loaded than there are chambers
+        chambers = 6  #
     for _loop in range(bullets):
         cylinder.append(True)
-    for _loop in range(chambers-bullets):
+    for _loop in range(chambers - bullets):
         cylinder.append(False)
     random.shuffle(cylinder)
     return cylinder
 
 
-def roll(d=20, n=1):
+def roll(n=1, d=20):
     """
     Returns a number of random integers to replicate the rolling of dice
-    :param d: Number of sides on the dice (default is 20)
     :param n: Number of dice to roll (default is 1)
+    :param d: Number of sides on the dice (default is 20)
     :return: A list of dice rolls, along with the sum, maximum and minimum roll
     """
     result = []
@@ -148,10 +148,10 @@ def pull_trigger(cylinder, n=1):
     for _loop in range(n):
         if len(cylinder) <= 0:  # Checks if the list is empty (all bullets have been fired, cylinder just rotates
             result.append("* click * ")
-        elif not cylinder[0]:   # Checks if the first chamber is empty
+        elif not cylinder[0]:  # Checks if the first chamber is empty
             result.append("* click *")
             cylinder.remove(cylinder[0])
-        elif cylinder[0]:       # Checks if first chamber has a loaded round
+        elif cylinder[0]:  # Checks if first chamber has a loaded round
             result.append("* BANG! *")
             cylinder.remove(cylinder[0])
     return result
@@ -247,7 +247,27 @@ def convert_denominations(cp):
 
 def random_npc():
     # TODO: Create function to generate random NPC names
+    # Type of Name | Gender | Name
+    # CSV? SQLite database? JSON? 
     return
+
+
+def dice_text_converter(text):
+    """
+    Takes a text input (such as '4d6') and converts it into separate values for use elsewhere (in this case, returns
+    the values 4 and 6)
+    :param text: The text input for the function
+    :return: Two values, one representing the number of dice and the other the number of sides on the dice
+    """
+    text = str.replace(text, " ", "")
+    if "d" in text:
+        n, d = text.lower().split("d")[0], text.lower().split("d")[1]
+        if str.isdigit(n) and str.isdigit(d):
+            return int(n), int(d)
+        else:
+            return "Error: Invalid Syntax - Please rewrite in the form [number of dice]d[number of sides]"
+    else:
+        return "Error: Invalid Syntax - Please rewrite in the form [number of dice]d[number of sides]"
 
 
 if __name__ == '__main__':
