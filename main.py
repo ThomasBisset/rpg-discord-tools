@@ -252,10 +252,16 @@ def convert_denominations(cp):
     return pp, gp, ep, sp, cp
 
 
-def random_npc():
+def random_npc(race=random, gender=random):
     # TODO: Create function to generate random NPC names
-    # Type of Name | Gender | Name
     # CSV? SQLite database? JSON? 
+    return
+
+
+def quick_ref(search_term):
+    # TODO: Implement a quick reference tool
+    # https://crobi.github.io/dnd5e-quickref/preview/quickref.html
+    # Prices for items?
     return
 
 
@@ -282,4 +288,5 @@ if __name__ == '__main__':
     tarot_deck = new_tarot_deck()
     deck_of_many_things = new_deck_of_many_things()
     gun = new_gun()
-    print(character_ability_roll())
+    copper = convert_all_to_cp(56, 1620, 0, 189, 304, 4)[1]
+    print(convert_denominations(copper))
