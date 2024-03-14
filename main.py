@@ -5,7 +5,7 @@ import csv
 def read_name_list():
     with open("names.csv", "r", encoding="UTF-8") as file:
         csv_reader = csv.DictReader(file)
-        name_list = [row for row in csv_reader]
+        name_list = list(csv_reader)
     return name_list
 
 
