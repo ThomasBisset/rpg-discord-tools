@@ -46,7 +46,7 @@ def new_tarot_deck(major=True, minor=True):
     :return: A list of tarot cards, shuffled
     """
     deck = []
-    major_arcana_cards = ["The Fool", "The Magician", "The High Priestess", "The Empress", 
+    major_arcana_cards = ["The Fool", "The Magician", "The High Priestess", "The Empress",
                           "The Emperor", "The Hierophant", "The Lovers", "The Chariot", "Strength", 
                           "The Hermit", "Wheel Of Fortune", "Justice", "The Hanged Man", "Death", 
                           "Temperance", "Devil", "The Tower", "The Star", "The Moon", "The Sun", 
@@ -217,15 +217,17 @@ def convert_as_to_mod(ability_score):
 
 def convert_all_to_cp(pp, gp, ep, sp, cp, split=1):
     """
-    Converts all currency used in typical Dungeons & Dragons games into copper pieces, which is the lowest
-    denomination - this allows for easier conversion back into larger denominations to redistribute among the party
+    Converts all currency used in typical Dungeons & Dragons games into copper pieces, which is the 
+    lowest denomination - this allows for easier conversion back into larger denominations to 
+    redistribute among the party
     :param pp: Number of platinum pieces
     :param gp: Number of gold pieces
     :param ep: Number of electrum pieces
     :param sp: Number of silver pieces
     :param cp: Number of copper pieces
     :param split: Number of ways the copper pieces are to be split
-    :return: A list containing the total copper pieces, the amount to be shared, and any remainder left over
+    :return: A list containing the total copper pieces, the amount to be shared, and any remainder 
+    left over
     """
     total_in_cp = (cp + (sp * 10) + (ep * 50) + (gp * 100) + (pp * 1000))
     share_of_cp = total_in_cp // split
@@ -235,9 +237,11 @@ def convert_all_to_cp(pp, gp, ep, sp, cp, split=1):
 
 def convert_denominations(cp):
     """
-    Converts the number of copper pieces back to larger denominations for redistribution among the party
+    Converts the number of copper pieces back to larger denominations for redistribution 
+    among the party
     :param cp: Number of copper pieces
-    :return: A list with the number of platinum, gold, electrum, silver and copper pieces respectively
+    :return: A list with the number of platinum, gold, electrum, silver and 
+    copper pieces respectively
     """
     if cp >= 1000:
         pp = cp // 1000
@@ -277,20 +281,22 @@ def quick_ref(search_term):
 
 def dice_text_converter(text):
     """
-    Takes a text input (such as '4d6') and converts it into separate values for use elsewhere (in this case, returns
-    the values 4 and 6)
+    Takes a text input (such as '4d6') and converts it into separate values for use elsewhere 
+    (in this case, returns the values 4 and 6)
     :param text: The text input for the function
-    :return: Two values, one representing the number of dice and the other the number of sides on the dice
+    :return: Two values, one representing the number of dice and the other the number of 
+    sides on the dice
     """
+    error = "Error: Invalid Syntax - Please rewrite in the form [number of dice]d[number of sides]"
     text = str.replace(text, " ", "")
     if "d" in text:
         n, d = text.lower().split("d", maxsplit=1)[0], text.lower().split("d", maxsplit=1)[1]
         if str.isdigit(n) and str.isdigit(d):
             return int(n), int(d)
         else:
-            return "Error: Invalid Syntax - Please rewrite in the form [number of dice]d[number of sides]"
+            return error
     else:
-        return "Error: Invalid Syntax - Please rewrite in the form [number of dice]d[number of sides]"
+        return error
 
 
 if __name__ == '__main__':
