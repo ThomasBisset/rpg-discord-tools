@@ -1,4 +1,12 @@
 import random
+import csv
+
+
+def read_name_list():
+    with open("names.csv", "r", encoding="UTF-8") as file:
+        csv_reader = csv.DictReader(file)
+        name_list = [row for row in csv_reader]
+    return name_list
 
 
 def new_card_deck(joker=False):
@@ -38,10 +46,11 @@ def new_tarot_deck(major=True, minor=True):
     :return: A list of tarot cards, shuffled
     """
     deck = []
-    major_arcana_cards = ["The Fool", "The Magician", "The High Priestess", "The Empress", "The Emperor",
-                          "The Hierophant", "The Lovers", "The Chariot", "Strength", "The Hermit", "Wheel Of Fortune",
-                          "Justice", "The Hanged Man", "Death", "Temperance", "Devil", "The Tower", "The Star",
-                          "The Moon", "The Sun", "Judgment", "The World"]
+    major_arcana_cards = ["The Fool", "The Magician", "The High Priestess", "The Empress", 
+                          "The Emperor", "The Hierophant", "The Lovers", "The Chariot", "Strength", 
+                          "The Hermit", "Wheel Of Fortune", "Justice", "The Hanged Man", "Death", 
+                          "Temperance", "Devil", "The Tower", "The Star", "The Moon", "The Sun", 
+                          "Judgment", "The World"]
     minor_arcana_cards = []
     for value in range(1, 15):
         if value == 1:
@@ -73,8 +82,8 @@ def new_tarot_deck(major=True, minor=True):
 def new_deck_of_many_things(extended=False):
     """
     Creates a list of cards from Dungeons & Dragons Deck of Many Things
-    :param extended: If 'True', use the extended set of twenty-two cards; 'False' uses the thirteen card set (in D&D
-    lore, the Deck is found with thirteen cards 75% of the time)
+    :param extended: If 'True', use the extended set of twenty-two cards; 'False' uses the thirteen 
+    card set (in D&D lore, the Deck is found with thirteen cards 75% of the time)
     :return: A list containing the required Deck of Many Things cards
     """
     deck = ["Throne", "Key", "Knight", "Fool", "The Void", "Flames", "Skull", "Ruin", "Euryale",
@@ -88,13 +97,13 @@ def new_deck_of_many_things(extended=False):
 
 def new_gun(bullets=1, chambers=6):
     """
-    Loads a (virtual) revolver with an arbitrary number of bullets in an equally arbitrary number of chambers (Note:
-    If there is an attempt to load more bullets than there are chambers, the script will use the default values of one
-    'bullet' loaded into one of six 'chambers')
+    Loads a (virtual) revolver with an arbitrary number of bullets in an equally arbitrary number 
+    of chambers (Note: If there is an attempt to load more bullets than there are chambers, the 
+    script will use the default values of one 'bullet' loaded into one of six 'chambers')
     :param bullets: Number of 'bullets' to load into the gun
     :param chambers: Number of 'chambers' in the gun
-    :return: A list of Boolean values, where 'True' represents a bullet in the chamber and 'False' represents an empty
-    chamber
+    :return: A list of Boolean values, where 'True' represents a bullet in the chamber and 'False' 
+    represents an empty chamber
     """
     cylinder = []
     if bullets > chambers:  #
@@ -139,8 +148,8 @@ def draw(deck, n=1):
 def pull_trigger(loaded_gun, n=1):
     """
     Simulates the game Russian Roulette
-    :param loaded_gun: A list of Boolean values - 'True' represents the presence of a bullet in a chamber, while 'False'
-    is an empty chamber
+    :param loaded_gun: A list of Boolean values - 'True' represents the presence of a bullet in a 
+    chamber, while 'False' is an empty chamber
     :param n: The number of trigger pulls
     :return: A list containing the results of the trigger pulls
     """
@@ -171,8 +180,8 @@ def flip(n=1):
 
 def character_ability_roll():
     """
-    Simulates the typical way of assigning ability scores in Dungeons & Dragons; four d6 die are rolled, with the three
-    biggest values being summed to give the ability score
+    Simulates the typical way of assigning ability scores in Dungeons & Dragons; four d6 die are 
+    rolled, with the three biggest values being summed to give the ability score
     :return: A list of six values based on the random rolls described
     """
     result = []
@@ -181,20 +190,21 @@ def character_ability_roll():
         ability.remove(min(ability))
         result.append(sum(ability))
     result = sorted(result, reverse=True)
-    output = (f"Highest: {str(result[0]).rjust(2, ' ')}, {convert_ability_to_modifier(result[0])[1]} \n"
-              f"         {str(result[1]).rjust(2, ' ')}, {convert_ability_to_modifier(result[1])[1]} \n"
-              f"         {str(result[2]).rjust(2, ' ')}, {convert_ability_to_modifier(result[2])[1]} \n"
-              f"         {str(result[3]).rjust(2, ' ')}, {convert_ability_to_modifier(result[3])[1]} \n"
-              f"         {str(result[4]).rjust(2, ' ')}, {convert_ability_to_modifier(result[4])[1]} \n"
-              f"Lowest:  {str(result[5]).rjust(2, ' ')}, {convert_ability_to_modifier(result[5])[1]}")
+    output = (f"Highest: {str(result[0]).rjust(2, ' ')}, {convert_as_to_mod(result[0])[1]} \n"
+              f"         {str(result[1]).rjust(2, ' ')}, {convert_as_to_mod(result[1])[1]} \n"
+              f"         {str(result[2]).rjust(2, ' ')}, {convert_as_to_mod(result[2])[1]} \n"
+              f"         {str(result[3]).rjust(2, ' ')}, {convert_as_to_mod(result[3])[1]} \n"
+              f"         {str(result[4]).rjust(2, ' ')}, {convert_as_to_mod(result[4])[1]} \n"
+              f"Lowest:  {str(result[5]).rjust(2, ' ')}, {convert_as_to_mod(result[5])[1]}")
     return output
 
 
-def convert_ability_to_modifier(ability_score):
+def convert_as_to_mod(ability_score):
     """
     Converts an ability score to an ability modifier
     :param ability_score: The ability score (typically between 3 and 20)
-    :return: The ability modifier in its raw form, as well as a formatted string with '+' where the score is positive
+    :return: The ability modifier in its raw form, as well as a formatted string with '+' where the 
+    score is positive
     """
     ability_modifier = int((ability_score - 10) / 2)
     if ability_modifier > 0:
@@ -252,17 +262,17 @@ def convert_denominations(cp):
     return pp, gp, ep, sp, cp
 
 
-def random_npc(race=random, gender=random):
+def random_npc(race=random, gender=random, variant=random):
     # TODO: Create function to generate random NPC names
-    # CSV? SQLite database? JSON? 
-    return
+
+    return race, gender, variant
 
 
 def quick_ref(search_term):
     # TODO: Implement a quick reference tool
     # https://crobi.github.io/dnd5e-quickref/preview/quickref.html
     # Prices for items?
-    return
+    return search_term
 
 
 def dice_text_converter(text):
@@ -274,7 +284,7 @@ def dice_text_converter(text):
     """
     text = str.replace(text, " ", "")
     if "d" in text:
-        n, d = text.lower().split("d")[0], text.lower().split("d")[1]
+        n, d = text.lower().split("d", maxsplit=1)[0], text.lower().split("d", maxsplit=1)[1]
         if str.isdigit(n) and str.isdigit(d):
             return int(n), int(d)
         else:
@@ -288,5 +298,4 @@ if __name__ == '__main__':
     tarot_deck = new_tarot_deck()
     deck_of_many_things = new_deck_of_many_things()
     gun = new_gun()
-    copper = convert_all_to_cp(56, 1620, 0, 189, 304, 4)[1]
-    print(convert_denominations(copper))
+    print(read_name_list())
