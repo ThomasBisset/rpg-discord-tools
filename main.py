@@ -3,6 +3,10 @@ import csv
 
 
 def read_name_list():
+    """
+    Reads list of names from CSV file
+    :return: List of names
+    """
     with open("names.csv", "r", encoding="UTF-8") as file:
         csv_reader = csv.DictReader(file)
         name_list = list(csv_reader)
@@ -81,7 +85,7 @@ def new_tarot_deck(major=True, minor=True):
 
 def new_deck_of_many_things(extended=False):
     """
-    Creates a list of cards from Dungeons & Dragons Deck of Many Things
+    Creates a list of cards from the Dungeons & Dragons Deck of Many Things
     :param extended: If 'True', use the extended set of twenty-two cards; 'False' uses the thirteen 
     card set (in D&D lore, the Deck is found with thirteen cards 75% of the time)
     :return: A list containing the required Deck of Many Things cards
@@ -93,6 +97,25 @@ def new_deck_of_many_things(extended=False):
         deck.extend(extended_deck)
     random.shuffle(deck)
     return deck
+
+
+def new_deck_of_illusions(missing=-1):
+    """
+    Creates a new list of cards from the Dungeons & Dragons Deck of Illusions
+    :param missing: If set to "-1", the deck will have a random number of values removed from the list (in Dungeons &
+    Dragons lore the pack is found with 1d20-1 cards missing, so this behaviour is replicated here). Otherwise, any
+    other integer value will be passed as an argument and this number of values will be removed from the list.
+    :return: A list containing the remaining cards
+    """
+    full_deck = ["Red dragon", "Knight and four guards", "Succubus or incubus", "Druid", "Cloud giant", "Ettin",
+                 "Bugbear", "Goblin", "Beholder", "Archmage and mage apprentice", "Night hag", "Assassin", "Fire giant",
+                 "Ogre mage", "Gnoll", "Kobold", "Lich", "Priest and two acolytes", "Medusa", "Veteran", "Frost giant",
+                 "Troll", "Hobgoblin", "Goblin", "Iron golem", "Bandit captain and three bandits", "Erinyes",
+                 "Berserker", "Hill giant", "Ogre", "Orc", "Kobold", "You (The Deck's Owner)"]
+    if missing < 0 or not missing.is_integer() or missing >= len(full_deck):
+        return random.sample(full_deck, len(full_deck) - roll(1, 20)[1] - 1)
+    else:
+        return random.sample(full_deck, len(full_deck) - missing)
 
 
 def new_gun(bullets=1, chambers=6):
@@ -268,7 +291,6 @@ def convert_denominations(cp):
 
 def random_npc(race=random, gender=random, variant=random):
     # TODO: Create function to generate random NPC names
-
     return race, gender, variant
 
 
@@ -303,5 +325,5 @@ if __name__ == '__main__':
     card_deck = new_card_deck()
     tarot_deck = new_tarot_deck()
     deck_of_many_things = new_deck_of_many_things()
+    deck_of_illusions = new_deck_of_illusions(100)
     gun = new_gun()
-    print(read_name_list())
